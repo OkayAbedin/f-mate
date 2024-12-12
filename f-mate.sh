@@ -20,7 +20,10 @@ handle_error() {
 
 # Ensure necessary commands are available
 for cmd in awk sed date; do
-    command -v $cmd >/dev/null 2>&1 || handle_error "$cmd command not found. Please install it."
+    command -v $cmd >/dev/null 2>&1 || {
+        echo "$cmd not found. Installing..."
+        sudo apt-get install -y $cmd || handle_error "Failed to install $cmd."
+    }
 done
 
 # Get current month and year
