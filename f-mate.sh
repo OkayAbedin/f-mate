@@ -85,11 +85,16 @@ add_customer_order() {
         [[ -z "$customer_name" ]] && echo -e "${RED}Customer name cannot be empty. Please enter again:${RESET}" || break
     done
 
-    echo -e "${YELLOW}Enter customer phone:${RESET}"
-    while true; do
-        read customer_phone
-        [[ -z "$customer_phone" || ! "$customer_phone" =~ ^[0-9]+$  ]] && echo -e "${RED}Invalid phone number. Please enter again:${RESET}" || break
-    done
+echo -e "${YELLOW}Enter customer phone (e.g., 01758459556):${RESET}"
+while true; do
+    read customer_phone
+    if [[ -z "$customer_phone" || ! "$customer_phone" =~ ^[0-9]{11}$ ]]; then
+        echo -e "${RED}Invalid phone number. Please enter exactly 11 digits:${RESET}"
+    else
+        customer_phone="+88$customer_phone"
+        break
+    fi
+done
 
     echo -e "${YELLOW}Enter customer address:${RESET}"
     while true; do
